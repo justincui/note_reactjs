@@ -1,0 +1,18 @@
+ /Users/justincui/myReactNatives/note_reactjs/node_modules/react-native/packager/launchPackager.command ; exit;
+ npm install --save react-native-maps
+ npm install -g react-native-git-upgrade
+ react-native --help
+ react-native --version
+ react-native bundle --platform ios --dev false --entry-file index.ios.js --bundle-output iOS/main.jsbundle
+ react-native bundle --platform ios --dev true --entry-file index.ios.js --bundle-output iOS/main.jsbundle
+ react-native help
+ react-native init note_reactjs
+ react-native link
+ react-native run-ios
+ react-native run-ios --configuration Release
+ react-native run-ios --configuration Release --device "JustinPhone"
+ react-native run-ios --device
+ react-native run-ios --device "JustinPhone"
+ react-native run-ios --device "JustinPhone" &
+ react-native run-ios --help
+ react-native upgrade
