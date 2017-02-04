@@ -23,6 +23,7 @@ export default class CameraScene extends Component {
                 captureTarget={Camera.constants.CaptureTarget.disk}
                 ref="cam"
                 style={styles.container}
+                aspect={Camera.constants.Aspect.fill}
             >
                 <View style={styles.cameraButtonContainer}>
                     <SimpleButton
