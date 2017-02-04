@@ -329,4 +329,4 @@ const styles = StyleSheet.create({
 import CameraScene from './App/Components/CameraScene';
 //AppRegistry.registerComponent('note_reactjs', () => CameraScene);
 AppRegistry.registerComponent('note_reactjs', () => root_comp); //first parameter is the link to module_name in AppDelegate.m
-console.log("start up");
+//console.log("start up");
