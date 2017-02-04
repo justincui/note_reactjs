@@ -14,14 +14,14 @@ import {
     StatusBar,
     AsyncStorage
 } from 'react-native';
+import RnFs from 'react-native-fs';
+import uuid from 'uuid/v1';
 
 import ImageScene from './App/Components/ImageScene';
 import NoteScene from './App/Components/NoteScene';
 import HomeScene from './App/Components/HomeScene';
 import NoteLocationScene from './App/Components/NoteLocationScene';
 import SimpleButton from './App/Components/SimpleButton';
-import _ from 'lodash';
-import uuid from 'uuid/v1';
 
 const NoteStorageKey = "@ReactNotes:notes";
 
@@ -76,6 +76,7 @@ export default class root_comp extends Component {
     }
 
     deleteNoteImage(note) {
+        RnFs.unlink(note.imagePath);
         note.imagePath = null;
         this.updateNote(note);
     }
@@ -93,6 +94,9 @@ export default class root_comp extends Component {
 
     deleteNote(note) {
         let newNotes = Object.assign({}, this.state.notes);
+        if(note.imagePath){
+            RnFs.unlink(note.imagePath);
+        }
         delete newNotes[note.id];
         this.setState({notes: newNotes});
         this.saveNotes(newNotes);
@@ -119,6 +123,9 @@ export default class root_comp extends Component {
     }
 
     saveNoteImage(imagePath, note) {
+        if(note.imagePath){
+            RnFs.unlink(note.imagePath);
+        }
         note.imagePath = imagePath;
         this.updateNote(note);
     }
@@ -170,7 +177,9 @@ export default class root_comp extends Component {
                 );
             case 'camera':
                 return <CameraScene
-                    onPicture={(imagePath) => this.saveNoteImage(imagePath, route.note)}
+                    onPicture={(imagePath) => {
+                        this.saveNoteImage(imagePath, route.note);
+                    }}
                 />;
             case 'noteImage':
                 return <ImageScene note={route.note}/>;
