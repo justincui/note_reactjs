@@ -2937,7 +2937,7 @@ react-native-fs@^2.1.0-rc.1:
     base-64 "^0.1.0"
     utf8 "^2.1.1"
 
-"react-native-maps@https://github.com/justincui/react-native-maps.git":
+"react-native-maps@https://github.com/justincui/react-native-maps.git#working_for_note_reactjs":
   version "0.13.0"
   resolved "https://github.com/justincui/react-native-maps.git#bec405d55bdc1ae7bbf10e56c769e089d1a8f3e5"
 
