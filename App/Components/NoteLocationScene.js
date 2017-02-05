@@ -2,7 +2,8 @@
  * Created by justincui on 1/18/17.
  */
 import React, {Component} from 'react';
-import {StyleSheet, MapView} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+import MapView from 'react-native-maps';
 import _ from 'lodash';
 
 export default class NoteLocationScene extends Component{
@@ -18,19 +19,39 @@ export default class NoteLocationScene extends Component{
                 };
             }
         );
+        const { width, height } = Dimensions.get('window');
+
+        const ASPECT_RATIO = width / (height-styles.map.marginTop);
+        const LATITUDE_DELTA = 0.0922;
+        const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+        const SPACE = 0.01;
+
         return (
             <MapView
-                annotations={locations}
-                showsUserLocation={true}
+                //provoider="google"
+                initialRegion={{
+                    latitude: this.props.initialPosition.latitude,
+                    longitude: this.props.initialPosition.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
                 style={styles.map}
             />
         );
     }
 }
+NoteLocationScene.propTypes = {
+    notes: React.PropTypes.object,
+    onSelectNote: React.PropTypes.func,
+    initialPosition: React.PropTypes.shape({
+        latitude: React.PropTypes.number,
+        longitude: React.PropTypes.number,
+    }).isRequired
+};
 
 const styles = StyleSheet.create({
     map:{
         flex:1,
-        marginTop: 64
+        marginTop: 64,
     }
 });
