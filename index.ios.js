@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import App from './App/App';
+import App from './App';
 
 
 AppRegistry.registerComponent('note_reactjs', () => App); //first parameter is the link to module_name in AppDelegate.m

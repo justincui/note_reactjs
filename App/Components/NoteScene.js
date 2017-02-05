@@ -1,33 +1,60 @@
 /**
  * Created by justincui on 1/14/17.
  */
+import RnFs from 'react-native-fs';
+import _ from 'lodash';
+
 import React, {Component} from 'react';
 import {StyleSheet, View, Text, TextInput} from 'react-native';
 import SimpleButton from './SimpleButton';
 
-export default class NoteScene extends Component{
-    constructor(props){
+export default class NoteScene extends Component {
+    constructor(props) {
         super(props);
-        this.state = {note:this.props.note||{}}
+
+        this.state = {
+            note: this.props.note || {},
+        };
+
+        if (_.isObject(this.props.note) && _.isString(this.state.note.imagePath)) {
+            RnFs.exists(this.state.note.imagePath).then(
+                (file_existing) => {
+                    if (!file_existing) {
+                        this._cleanInvalidImage();
+                    }
+                }
+            );
+        }
     }
-    _updateTitle(title){
-        var note=Object.assign(this.state.note, {title});
+
+    _cleanInvalidImage() {
+        let note = Object.assign(this.state.note, {imagePath: null});
         this.props.onChangeNote(note);
         this.setState(note);
     }
-    _updateBody(body){
-        var note=Object.assign(this.state.note, {body});
+
+    _updateTitle(title) {
+        let note = Object.assign(this.state.note, {title});
         this.props.onChangeNote(note);
         this.setState(note);
     }
-    blurInputs () {
+
+    _updateBody(body) {
+        let note = Object.assign(this.state.note, {body});
+        this.props.onChangeNote(note);
+        this.setState(note);
+    }
+
+    blurInputs() {
         this.refs.body.blur();
         this.refs.title.blur();
     }
-    render(){
+
+    render() {
         let pictureButton = null;
         if (this.props.showCameraButton) {
-            pictureButton = (this.state.note.imagePath) ? (
+            pictureButton = _.isString(this.state.note.imagePath) ?
+                (
                     <SimpleButton
                         onPress={() => {
                             this.blurInputs();
@@ -66,7 +93,7 @@ export default class NoteScene extends Component{
                         ref="title"
                         onEndEditing={(text) => this.refs.body.focus()}
                         value={this.state.note.title}
-                        onChangeText={(title)=>this._updateTitle(title)}
+                        onChangeText={(title) => this._updateTitle(title)}
                     />
                     {pictureButton}
                 </View>
@@ -77,7 +104,7 @@ export default class NoteScene extends Component{
                         style={[styles.body, styles.textInput]}
                         ref="body"
                         value={this.state.note.body}
-                        onChangeText={(body)=>this._updateBody(body)}
+                        onChangeText={(body) => this._updateBody(body)}
                     />
                 </View>
             </View>
@@ -90,9 +117,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'lightblue',
         marginTop: 64,
-        padding:20
+        padding: 20
     },
-    inputContainer:{
+    inputContainer: {
         borderBottomColor: '#9E7CE3',
         borderBottomWidth: 1,
         flexDirection: 'row',
@@ -104,9 +131,9 @@ const styles = StyleSheet.create({
     body: {
         height: 250
     },
-    textInput:{
-        flex:1,
-        fontSize:16
+    textInput: {
+        flex: 1,
+        fontSize: 16
     },
     takePictureButton: {
         backgroundColor: '#5B29C1',
