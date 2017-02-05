@@ -6,22 +6,22 @@ import {StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 import _ from 'lodash';
 
-export default class NoteLocationScene extends Component{
-    render(){
-        var locations = _.values(this.props.notes).map(
-            (note)=> {
-                return {
+export default class NoteLocationScene extends Component {
+    render() {
+        let markers = _.values(this.props.notes).map(
+            (note) => ({
+                key: note.id,
+                coordinate: {
                     latitude: note.location.coords.latitude,
-                    longitude: note.location.coords.longitude,
-                    title: note.title,
-                    hasLeftCallout: true,
-                    onLeftCalloutPress: this.props.onSelectNote.bind(this, note),
-                };
-            }
+                    longitude: note.location.coords.longitude
+                },
+                title: note.title,
+                description: note.body,
+            })
         );
-        const { width, height } = Dimensions.get('window');
+        const {width, height} = Dimensions.get('window');
 
-        const ASPECT_RATIO = width / (height-styles.map.marginTop);
+        const ASPECT_RATIO = width / (height - styles.map.marginTop);
         const LATITUDE_DELTA = 0.0922;
         const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
         const SPACE = 0.01;
@@ -36,7 +36,13 @@ export default class NoteLocationScene extends Component{
                     longitudeDelta: 0.0421,
                 }}
                 style={styles.map}
-            />
+            >
+                {markers.map(m =>
+                    <MapView.Marker
+                        {...m}
+                    />
+                )}
+            </MapView>
         );
     }
 }
@@ -50,8 +56,8 @@ NoteLocationScene.propTypes = {
 };
 
 const styles = StyleSheet.create({
-    map:{
-        flex:1,
+    map: {
+        flex: 1,
         marginTop: 64,
     }
 });
