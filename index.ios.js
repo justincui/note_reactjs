@@ -20,6 +20,7 @@ import uuid from 'uuid/v1';
 import ImageScene from './App/Components/ImageScene';
 import NoteScene from './App/Components/NoteScene';
 import HomeScene from './App/Components/HomeScene';
+import CameraScene from './App/Components/CameraScene';
 import NoteLocationScene from './App/Components/NoteLocationScene';
 import SimpleButton from './App/Components/SimpleButton';
 
@@ -36,19 +37,7 @@ export default class root_comp extends Component {
         StatusBar.setBarStyle('light-content');
 
         this.state = {
-            notes: {
-                1: {
-                    title: "Sample",
-                    body: "Hello, world!",
-                    id: 1,
-                    location: {
-                        coords: {
-                            latitude: 33.987,
-                            longitude: -118.47
-                        }
-                    }
-                }
-            }
+            notes: {}
         };
         this.loadNotes();
         this.trackLocation();
@@ -335,7 +324,7 @@ const styles = StyleSheet.create({
     }
 });
 
-import CameraScene from './App/Components/CameraScene';
-//AppRegistry.registerComponent('note_reactjs', () => CameraScene);
+
+
 AppRegistry.registerComponent('note_reactjs', () => root_comp); //first parameter is the link to module_name in AppDelegate.m
 //console.log("start up");
