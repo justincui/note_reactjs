@@ -2,23 +2,12 @@
  * Created by justincui on 1/18/17.
  */
 import React, {Component} from 'react';
-import {StyleSheet, Dimensions} from 'react-native';
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
 import MapView from 'react-native-maps';
 import _ from 'lodash';
 
-export default class NoteLocationScene extends Component {
+export default class MapScene extends Component {
     render() {
-        let markers = _.values(this.props.notes).map(
-            (note) => ({
-                key: note.id,
-                coordinate: {
-                    latitude: note.location.coords.latitude,
-                    longitude: note.location.coords.longitude
-                },
-                title: note.title,
-                description: note.body,
-            })
-        );
         const {width, height} = Dimensions.get('window');
 
         const ASPECT_RATIO = width / (height - styles.map.marginTop);
@@ -37,16 +26,22 @@ export default class NoteLocationScene extends Component {
                 }}
                 style={styles.map}
             >
-                {markers.map(m =>
+                {_.values(this.props.notes).map(note =>
                     <MapView.Marker
-                        {...m}
-                    />
-                )}
+                        key={note.id}
+                        coordinate={note.location.coords}
+                    >
+                        <MapView.Callout
+                            style={{ flex: 1, position: 'relative' }}
+                            onPress={() => this.props.onSelectNote(note)}>
+                            <Text>{note.title}</Text>
+                        </MapView.Callout>
+                    </MapView.Marker>)}
             </MapView>
         );
     }
 }
-NoteLocationScene.propTypes = {
+MapScene.propTypes = {
     notes: React.PropTypes.object,
     onSelectNote: React.PropTypes.func,
     initialPosition: React.PropTypes.shape({

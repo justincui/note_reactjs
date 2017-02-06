@@ -20,7 +20,7 @@ import ImageScene from './Components/ImageScene';
 import NoteScene from './Components/NoteScene';
 import HomeScene from './Components/HomeScene';
 import CameraScene from './Components/CameraScene';
-import NoteLocationScene from './Components/NoteLocationScene';
+import MapScene from './Components/MapScene';
 import SimpleButton from './Components/SimpleButton';
 
 const NoteStorageKey = "@ReactNotes:notes";
@@ -155,7 +155,7 @@ export default class App extends Component {
                 );
             case 'noteLocations':
                 return (
-                    <NoteLocationScene
+                    <MapScene
                         notes={this.state.notes}
                         onSelectNote={
                             (note) => navigator.push({
